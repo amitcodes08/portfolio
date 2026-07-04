@@ -5,6 +5,7 @@ const nextConfig = {
     unoptimized: true,
   },
   basePath: '/portfolio',
+  assetPrefix: '/portfolio/',
 };
 
 module.exports = nextConfig;
