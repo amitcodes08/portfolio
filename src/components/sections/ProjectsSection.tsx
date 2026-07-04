@@ -24,30 +24,30 @@ interface Project {
 const projects: Project[] = [
   {
     number: '01',
-    title: 'Nabha Aarogya',
+    title: 'DevFlow',
     subtitle:
-      'An offline-first telemedicine Progressive Web App (PWA) ecosystem designed to maximize healthcare accessibility in rural sectors.',
-    tags: ['React', 'PWA', 'Node.js', 'MongoDB', 'Offline-First'],
+      'A modern, Next.js-driven technical support forum featuring context-aware AI answer generation, robust query tracking, and collaborative community discussions.',
+    tags: ['NextJs', 'GeminiAPI', 'Q&A System', 'MongoDB', 'Shadcn UI'],
     accent: 'cyan',
-    href: '#',
+    href: 'https://devflow-ocvx.onrender.com/',
   },
   {
     number: '02',
-    title: 'Lumi AI',
+    title: 'Lumi',
     subtitle:
       'A custom Gen AI chatbot featuring advanced LLM orchestration, model-switching, and deep context-history tracking.',
-    tags: ['Next.js', 'LangChain', 'OpenAI', 'RAG', 'TypeScript'],
+    tags: ['React', 'LangChain', 'OpenAI', 'RAG', 'Javascript'],
     accent: 'emerald',
-    href: '#',
+    href: 'https://github.com/amitcodes08/Lumi',
   },
   {
     number: '03',
-    title: 'Live Meme Cricket Interface',
+    title: 'Sportz',
     subtitle:
-      'A live-scoring simulator engineered with React, rendering physics-based fluid UI responses for simulated matches.',
-    tags: ['React', 'WebSocket', 'GSAP', 'Real-time', 'Physics UI'],
+      'A real-time sports commentary and scoring backend built with Node.js and PostgreSQL, utilizing WebSockets for instant, event-driven data delivery.',
+    tags: ['Nodejs', 'WebSocket', 'PostgreSQL', 'Real-time', 'Javascript'],
     accent: 'mixed',
-    href: '#',
+    href: 'https://github.com/amitcodes08/Sportz',
   },
 ];
 

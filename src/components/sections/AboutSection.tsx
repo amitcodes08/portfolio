@@ -17,7 +17,7 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
-  { label: 'LeetCode Rating', value: 1600, suffix: '+', color: 'cyan' },
+  { label: 'LeetCode Rating', value: 1700, suffix: '+', color: 'cyan' },
   { label: 'Problems Solved', value: 500, suffix: '+', color: 'emerald' },
   { label: 'Projects Built', value: 5, suffix: '+', color: 'cyan' },
   { label: 'Certifications', value: 3, suffix: '+', color: 'emerald' },
@@ -32,8 +32,8 @@ const languages = [
 ] as const;
 
 const cpBadges = [
-  { label: 'Codeforces Competitor', icon: '⚔️' },
-  { label: 'LeetCode 1600+', icon: '🏆' },
+  { label: 'Pupil - Codeforces', icon: '⚔️' },
+  { label: 'LeetCode 1700+', icon: '🏆' },
 ] as const;
 
 /* ─── Framer Motion variants ───────────────────────── */
@@ -146,7 +146,7 @@ export default function AboutSection() {
             </h3>
             <p className="text-[var(--muted-foreground)] leading-relaxed text-sm sm:text-[15px]">
               I&apos;m <span className="text-[var(--foreground)] font-medium">Amit Gupta</span> — a
-              second‑year <span className="text-[var(--accent-cyan)]">Information Technology</span> student
+              third‑year <span className="text-[var(--accent-cyan)]">Information Technology</span> student
               balancing the thrill of{' '}
               <span className="text-[var(--accent-emerald)]">algorithmic competitive programming</span>{' '}
               with building real‑world{' '}

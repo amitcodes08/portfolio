@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono, Syncopate } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { SoundProvider } from "@/context/SoundContext";
+import SoundToggle from "@/components/ui/SoundToggle";
 
 /* ── Typography System ──
    Inter         → Body text, UI labels, navigation (clean & readable)
@@ -44,7 +46,7 @@ const syncopate = Syncopate({
 export const metadata: Metadata = {
   title: "Amit Gupta | Full-Stack Developer & Competitive Programmer",
   description:
-    "Portfolio of Amit Gupta — Full-Stack Developer specializing in Gen AI, RAG Pipelines, and Interactive UIs. Competitive programmer with LeetCode 1600+ rating.",
+    "Portfolio of Amit Gupta — Full-Stack Developer specializing in Gen AI, RAG Pipelines, and Interactive UIs. Competitive programmer with LeetCode 1700+ rating.",
   keywords: [
     "Amit Gupta",
     "Full-Stack Developer",
@@ -76,7 +78,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen w-full bg-background text-foreground">
-        {children}
+        <SoundProvider>
+          {children}
+          <SoundToggle />
+        </SoundProvider>
       </body>
     </html>
   );

@@ -24,8 +24,8 @@ interface Milestone {
 
 const milestones: Milestone[] = [
   {
-    year: '2024',
-    period: '2024 – Present',
+    year: '2025',
+    period: '2025 – 2026',
     title: 'Campus Ambassador',
     org: 'Unstop',
     description:
@@ -33,21 +33,21 @@ const milestones: Milestone[] = [
     Icon: Users,
   },
   {
-    year: '2024',
-    period: '2024',
-    title: 'Software Engineering Intern',
-    org: 'C++ Development',
+    year: '2026',
+    period: '2026 - Present',
+    title: 'Full Stack Developer Intern',
+    org: 'Bharattech',
     description:
-      'Contributed to production C++ codebases, focusing on performance optimization and systems-level programming.',
+      'Contributing to real world applications and designing scalable and secure apis.',
     Icon: Terminal,
   },
   {
-    year: '2025',
-    period: '2025',
-    title: 'Google Cloud Agentic AI Premiere',
-    org: 'Selected Participant',
+    year: '2026',
+    period: '2026',
+    title: 'Waiting for the next opportunity',
+    org: '-',
     description:
-      'Selected for the exclusive Farzi Cafe challenge, building agentic AI solutions with Google Cloud\'s cutting-edge AI infrastructure.',
+      `If you have something for me, let's talk.`,
     Icon: Trophy,
   },
 ];

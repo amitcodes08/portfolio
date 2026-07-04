@@ -20,20 +20,20 @@ const CHANNELS: ContactChannel[] = [
   {
     icon: <FaGithub size={22} />,
     label: 'GitHub',
-    value: 'github.com/amitgupta',
-    href: 'https://github.com/amitgupta',
+    value: 'github.com/amitcodes08',
+    href: 'https://github.com/amitcodes08',
   },
   {
     icon: <FaLinkedinIn size={22} />,
     label: 'LinkedIn',
-    value: 'linkedin.com/in/amitgupta',
-    href: 'https://linkedin.com/in/amitgupta',
+    value: 'linkedin.com/in/amit-gupta-0a5292210',
+    href: 'https://www.linkedin.com/in/amit-gupta-0a5292210/',
   },
   {
     icon: <Mail size={22} />,
     label: 'Email',
-    value: 'amitgupta@email.com',
-    href: 'mailto:amitgupta@email.com',
+    value: 'aryaamit387@gmail.com',
+    href: 'mailto:aryaamit387@gmail.com',
   },
 ];
 
@@ -203,7 +203,7 @@ export default function FooterSection() {
         >
           {/* Left — copyright */}
           <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
-            © 2025 Amit Gupta. Crafted with precision.
+            © 2026 Amit Gupta. Crafted with precision ❤️.
           </p>
 
           {/* Right — decorative dots */}

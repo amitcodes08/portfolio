@@ -19,6 +19,15 @@ const ProjectsSection = dynamic(() => import('@/components/sections/ProjectsSect
 const TimelineSection = dynamic(() => import('@/components/sections/TimelineSection'), {
   ssr: false,
 });
+const GitHubHeatmapSection = dynamic(() => import('@/components/sections/GitHubHeatmapSection'), {
+  ssr: false,
+});
+const QuoteSection = dynamic(() => import('@/components/sections/QuoteSection'), {
+  ssr: false,
+});
+const ResumeSection = dynamic(() => import('@/components/sections/ResumeSection'), {
+  ssr: false,
+});
 const FooterSection = dynamic(() => import('@/components/sections/FooterSection'), {
   ssr: false,
 });
@@ -53,6 +62,18 @@ export default function Home() {
         <SectionDivider variant="mixed" />
 
         <TimelineSection />
+
+        <SectionDivider variant="dotted" />
+
+        <GitHubHeatmapSection />
+
+        <SectionDivider variant="gradient" />
+
+        <QuoteSection />
+
+        <ResumeSection />
+
+        <SectionDivider variant="mixed" />
 
         <FooterSection />
       </main>

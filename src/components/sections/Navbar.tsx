@@ -84,7 +84,7 @@ export default function Navbar() {
             transition-all duration-500 ease-out w-full
             ${
               scrolled
-                ? 'mt-4 sm:mt-5 w-[calc(100%-2rem)] sm:w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] lg:w-full max-w-6xl rounded-2xl border border-[var(--glass-border)] bg-[var(--glass)] shadow-lg backdrop-blur-2xl'
+                ? 'mt-4 w-[calc(100%-2rem)] sm:w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] lg:w-full max-w-6xl rounded-2xl border border-[var(--glass-border)] bg-[var(--glass)] shadow-lg backdrop-blur-2xl'
                 : 'max-w-full border-b border-transparent bg-transparent backdrop-blur-none'
             }
           `}
