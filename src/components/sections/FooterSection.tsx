@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useInView } from 'framer-motion';
 import { Mail, ArrowUpRight } from 'lucide-react';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
@@ -129,12 +129,63 @@ function MagneticCard({ channel, index }: { channel: ContactChannel; index: numb
   );
 }
 
-/* ================================================================
-   FOOTER SECTION
-   ================================================================ */
 export default function FooterSection() {
   const headingRef = useRef<HTMLDivElement>(null);
   const inView = useInView(headingRef, { once: true, amount: 0.4 });
+
+  const [displayText, setDisplayText] = useState('Amit Gupta');
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startClock = useCallback(() => {
+    // Clear any pending revert timer to keep clock running seamlessly
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+
+    // Only start a new interval if one isn't already active
+    if (!intervalRef.current) {
+      const updateClock = () => {
+        const now = new Date();
+        setDisplayText(
+          now.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+          })
+        );
+      };
+      updateClock(); // Update immediately on hover
+      intervalRef.current = setInterval(updateClock, 1000);
+    }
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    // Clear any existing revert timer to avoid overlap
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    // Start 3-second countdown to revert back to name
+    timerRef.current = setTimeout(() => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      setDisplayText('Amit Gupta');
+      timerRef.current = null;
+    }, 5000);
+  }, []);
+
+  // Cleanup timers on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
 
   return (
     <section id="contact" className="relative w-full overflow-hidden pt-20 sm:pt-28 md:pt-32 pb-0">
@@ -203,7 +254,15 @@ export default function FooterSection() {
         >
           {/* Left — copyright */}
           <p className="text-xs sm:text-sm text-[var(--muted-foreground)]">
-            © 2026 Amit Gupta. Crafted with precision ❤️.
+            © 2026{' '}
+            <span
+              onMouseEnter={startClock}
+              onMouseLeave={handleMouseLeave}
+              className="inline-block min-w-[76px] font-medium text-[var(--foreground)] cursor-pointer transition-colors duration-300 hover:text-[var(--accent-cyan)] font-code"
+            >
+              {displayText}
+            </span>
+            . Crafted with precision ❤️.
           </p>
 
           {/* Right — decorative dots */}
