@@ -34,21 +34,12 @@ const milestones: Milestone[] = [
   },
   {
     year: '2026',
-    period: '2026 - Present',
-    title: 'Full Stack Developer Intern',
-    org: 'Bharattech',
-    description:
-      'Contributing to real world applications and designing scalable and secure apis.',
-    Icon: Terminal,
-  },
-  {
-    year: '2026',
     period: '2026',
     title: 'Waiting for the next opportunity',
     org: '-',
     description:
       `If you have something for me, let's talk.`,
-    Icon: Trophy,
+    Icon: Terminal,
   },
 ];
 
