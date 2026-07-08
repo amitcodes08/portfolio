@@ -132,6 +132,7 @@ export default function HeroSection() {
         if (isLastName) {
           el.classList.remove('gradient-text');
         }
+        el.classList.remove('opacity-0');
         text.split('').forEach((char) => {
           const span = document.createElement('span');
           span.textContent = char;
@@ -190,10 +191,10 @@ export default function HeroSection() {
 
         {/* Name */}
         <h1 className="flex flex-col items-center gap-3 sm:gap-4 font-stretch uppercase" style={{ perspective: '600px' }}>
-          <span ref={firstNameRef} className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-widest text-foreground leading-none">
+          <span ref={firstNameRef} className="opacity-0 block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-widest text-foreground leading-none">
             {FIRST_NAME}
           </span>
-          <span ref={lastNameRef} className="gradient-text block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-widest leading-none">
+          <span ref={lastNameRef} className="opacity-0 gradient-text block text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-widest leading-none">
             {LAST_NAME}
           </span>
         </h1>
