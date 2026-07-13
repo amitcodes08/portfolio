@@ -19,6 +19,7 @@ interface Project {
   tags: string[];
   accent: 'cyan' | 'emerald' | 'mixed';
   href: string;
+  image: string;
 }
 
 const projects: Project[] = [
@@ -30,6 +31,7 @@ const projects: Project[] = [
     tags: ['NextJs', 'GeminiAPI', 'Q&A System', 'MongoDB', 'Shadcn UI'],
     accent: 'cyan',
     href: 'https://devflow-ocvx.onrender.com/',
+    image: '/projects/Devflow.png',
   },
   {
     number: '02',
@@ -39,6 +41,7 @@ const projects: Project[] = [
     tags: ['React', 'LangChain', 'OpenAI', 'RAG', 'Javascript'],
     accent: 'emerald',
     href: 'https://github.com/amitcodes08/Lumi',
+    image: '/projects/Lumi.png',
   },
   {
     number: '03',
@@ -48,6 +51,7 @@ const projects: Project[] = [
     tags: ['Nodejs', 'WebSocket', 'PostgreSQL', 'Real-time', 'Javascript'],
     accent: 'mixed',
     href: 'https://github.com/amitcodes08/Sportz',
+    image: '/projects/Sportz.png',
   },
 ];
 
@@ -69,6 +73,7 @@ const accentStyles = {
     mockStroke: 'rgba(6,182,212,0.25)',
     linkText: 'text-cyan-400',
     linkHover: 'group-hover:text-cyan-300',
+    dottedBorder: 'border-cyan-400/40 group-hover:border-cyan-400/80',
   },
   emerald: {
     border: 'from-emerald-400/80 via-emerald-500/40 to-emerald-400/10',
@@ -83,6 +88,7 @@ const accentStyles = {
     mockStroke: 'rgba(16,185,129,0.25)',
     linkText: 'text-emerald-400',
     linkHover: 'group-hover:text-emerald-300',
+    dottedBorder: 'border-emerald-400/40 group-hover:border-emerald-400/80',
   },
   mixed: {
     border: 'from-cyan-400/70 via-emerald-400/50 to-cyan-400/10',
@@ -97,94 +103,9 @@ const accentStyles = {
     mockStroke: 'rgba(6,182,212,0.2)',
     linkText: 'text-cyan-400',
     linkHover: 'group-hover:text-cyan-300',
+    dottedBorder: 'border-cyan-400/40 group-hover:border-emerald-400/80',
   },
 } as const;
-
-/* ──────────────────────────────────────────────
-   Mock UI Preview (geometric / dotted grid)
-   ────────────────────────────────────────────── */
-
-function MockUIPreview({ accent }: { accent: Project['accent'] }) {
-  const s = accentStyles[accent];
-  return (
-    <div
-      className="relative h-44 sm:h-52 lg:h-60 w-full overflow-hidden rounded-xl"
-      style={{ background: s.mockAccent }}
-    >
-      {/* Dotted grid background */}
-      <div
-        className="absolute inset-0 opacity-50"
-        style={{
-          backgroundImage: `radial-gradient(circle, ${s.mockStroke} 1px, transparent 1px)`,
-          backgroundSize: '20px 20px',
-        }}
-      />
-
-      {/* Decorative window chrome */}
-      <div className="absolute left-4 top-4 flex items-center gap-1.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
-        <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
-        <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
-      </div>
-
-      {/* Geometric shapes — simulated UI skeleton */}
-      <div className="absolute inset-0 flex items-center justify-center px-6 pt-10 pb-6">
-        <div className="flex w-full max-w-sm flex-col gap-3">
-          <div
-            className={`h-3 w-3/4 rounded-full bg-gradient-to-r ${s.barGradient} opacity-30`}
-          />
-          <div
-            className={`h-3 w-1/2 rounded-full bg-gradient-to-r ${s.barGradient} opacity-20`}
-          />
-
-          <div className="mt-3 flex gap-3">
-            <div
-              className="h-14 w-14 sm:h-16 sm:w-16 shrink-0 rounded-lg opacity-20"
-              style={{ background: s.mockStroke }}
-            />
-            <div className="flex flex-1 flex-col gap-2">
-              <div
-                className="h-2.5 w-full rounded-full opacity-15"
-                style={{ background: s.mockStroke }}
-              />
-              <div
-                className="h-2.5 w-4/5 rounded-full opacity-12"
-                style={{ background: s.mockStroke }}
-              />
-              <div
-                className="h-2.5 w-3/5 rounded-full opacity-10"
-                style={{ background: s.mockStroke }}
-              />
-            </div>
-          </div>
-
-          <div className="mt-2 flex gap-2">
-            <div
-              className={`h-7 w-20 rounded-md bg-gradient-to-r ${s.barGradient} opacity-20`}
-            />
-            <div
-              className="h-7 w-16 rounded-md opacity-10"
-              style={{ background: s.mockStroke }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Floating accent orb */}
-      <div
-        className="animate-float pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-20 blur-2xl"
-        style={{
-          background:
-            accent === 'mixed'
-              ? 'linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald))'
-              : accent === 'cyan'
-                ? 'var(--accent-cyan)'
-                : 'var(--accent-emerald)',
-        }}
-      />
-    </div>
-  );
-}
 
 /* ──────────────────────────────────────────────
    Project Card
@@ -217,7 +138,7 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
 
       {/* ── Card body ── */}
-      <div className="glass-card relative z-10 overflow-hidden rounded-2xl p-5 sm:p-6 md:p-8 lg:p-10">
+      <div className="glass-card relative z-10 overflow-hidden rounded-2xl p-6 sm:p-8 md:p-10 lg:p-12">
         {/* Large background project number */}
         <span
           className={`pointer-events-none absolute -right-2 sm:-right-4 -top-4 sm:-top-6 select-none text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] font-black
@@ -228,10 +149,16 @@ function ProjectCard({ project }: { project: Project }) {
         </span>
 
         {/* Content grid */}
-        <div className="relative z-10 flex flex-col gap-5 sm:gap-6 lg:flex-row lg:gap-8 xl:gap-10">
-          {/* Left — Mock UI Preview */}
+        <div className="relative z-10 flex flex-col gap-6 sm:gap-8 lg:flex-row lg:gap-10 xl:gap-12">
+          {/* Left — Project Image */}
           <div className="w-full shrink-0 lg:w-[45%]">
-            <MockUIPreview accent={project.accent} />
+            <div className={`relative w-full h-44 sm:h-52 lg:h-60 overflow-hidden rounded-xl border-[3px] border-dotted ${s.dottedBorder} p-2 bg-muted/40 transition-colors duration-500`}>
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover rounded-lg transition-transform duration-500 group-hover:scale-[1.04]"
+              />
+            </div>
           </div>
 
           {/* Right — Info */}
@@ -426,12 +353,12 @@ export default function ProjectsSection() {
         </div>
 
         {/* ── Project Cards ── */}
-        <div className="mx-auto flex max-w-5xl flex-col gap-6 sm:gap-8">
+        <div className="mx-auto flex max-w-5xl flex-col gap-10 sm:gap-14 md:gap-20">
           {projects.map((project, i) => (
             <div key={project.number}>
               <ProjectCard project={project} />
               {i < projects.length - 1 && (
-                <div className="mt-6 sm:mt-8">
+                <div className="mt-10 sm:mt-14 md:mt-20">
                   <DottedDivider />
                 </div>
               )}
