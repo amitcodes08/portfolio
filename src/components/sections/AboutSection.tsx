@@ -118,8 +118,9 @@ export default function AboutSection() {
           <p className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)] mb-3 font-code">
             Dashboard
           </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold gradient-text inline-block font-heading">
-            About & Stats
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight font-heading">
+            <span className="text-foreground">About</span>{' '}
+            <span className="font-serif-accent gradient-text inline-block">&amp; Stats</span>
           </h2>
           <div className="dotted-line-h mx-auto mt-6 sm:mt-8 w-32 sm:w-48" />
         </motion.div>

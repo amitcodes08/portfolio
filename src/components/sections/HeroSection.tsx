@@ -201,7 +201,11 @@ export default function HeroSection() {
 
         {/* Tagline */}
         <p ref={taglineRef} className="mx-auto mt-4 sm:mt-6 max-w-md sm:max-w-xl text-sm sm:text-base md:text-lg leading-relaxed text-muted-foreground opacity-0">
-          {TAGLINE}
+          Full-Stack Developer &amp; Competitive Programmer who{' '}
+          <span className="font-serif-accent text-base sm:text-lg md:text-xl text-foreground/80">
+            ships end-to-end
+          </span>{' '}
+          — Gen AI, RAG Pipelines, and Interactive UIs.
         </p>
 
         {/* CTA Buttons */}

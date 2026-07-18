@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono, Syncopate } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono, Syncopate, Instrument_Serif } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SoundProvider } from "@/context/SoundContext";
@@ -11,6 +11,7 @@ import SoundToggle from "@/components/ui/SoundToggle";
    JetBrains Mono → Code, counters, stats (technical monospace)
    Stretch Pro   → Hero Section name/display headings
    Syncopate     → Navbar and small futuristic accents
+   Instrument Serif → Decorative serif-italic accents in section headings
 */
 const inter = Inter({
   variable: "--font-inter",
@@ -39,6 +40,14 @@ const stretchPro = localFont({
 const syncopate = Syncopate({
   weight: ["400", "700"],
   variable: "--font-syncopate",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  style: "italic",
+  variable: "--font-instrument-serif",
   subsets: ["latin"],
   display: "swap",
 });
@@ -74,7 +83,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${stretchPro.variable} ${syncopate.variable} antialiased`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${stretchPro.variable} ${syncopate.variable} ${instrumentSerif.variable} antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-screen w-full bg-background text-foreground">

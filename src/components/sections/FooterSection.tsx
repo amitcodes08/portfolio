@@ -218,9 +218,10 @@ export default function FooterSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="gradient-text text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight font-heading"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight font-heading"
           >
-            Let&apos;s Build Something Amazing
+            <span className="gradient-text">Let&apos;s Build</span>{' '}
+            <span className="font-serif-accent text-foreground">Something Amazing</span>
           </motion.h2>
 
           <motion.p

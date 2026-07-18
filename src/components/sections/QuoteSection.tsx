@@ -80,7 +80,7 @@ export default function QuoteSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="text-lg sm:text-xl md:text-2xl lg:text-[1.75rem] font-bold italic
-                             leading-snug sm:leading-[1.4] text-foreground/90 font-heading"
+                             leading-snug sm:leading-[1.4] text-foreground/90 font-serif-accent"
                 >
                   &ldquo;{QUOTE}&rdquo;
                 </motion.p>

@@ -26,6 +26,7 @@
   --font-mono: var(--font-mono), 'Courier New', monospace;
   --font-stretch: var(--font-stretch-pro), sans-serif;
   --font-syncopate: var(--font-syncopate), sans-serif;
+  --font-serif-accent: var(--font-instrument-serif), 'Georgia', serif;
 
   /* Animation timing */
   --animate-marquee: marquee 30s linear infinite;
@@ -145,6 +146,13 @@
   font-family: var(--font-mono), sans-serif;
   letter-spacing: 0.15em;
   text-transform: uppercase;
+}
+
+/* Instrument Serif accent — decorative italic serif for headings */
+.font-serif-accent {
+  font-family: var(--font-serif-accent);
+  font-style: italic;
+  font-weight: 400;
 }
 
 /* ============================

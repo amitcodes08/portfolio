@@ -275,7 +275,8 @@ export default function TimelineSection() {
           </span>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight font-heading">
-            <span className="gradient-text">The Journey So Far</span>
+            <span className="gradient-text">The Journey</span>{' '}
+            <span className="font-serif-accent text-foreground">So Far</span>
           </h2>
 
           <p className="mx-auto mt-3 sm:mt-4 max-w-md sm:max-w-lg text-sm sm:text-base text-muted-foreground">

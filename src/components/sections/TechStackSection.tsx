@@ -352,7 +352,7 @@ export default function TechStackSection() {
           className="mb-3 text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight font-heading"
         >
           <span className="gradient-text">Tech Stack</span>{' '}
-          <span className="text-foreground">Matrix</span>
+          <span className="font-serif-accent text-foreground">Matrix</span>
         </motion.h2>
 
         <motion.p

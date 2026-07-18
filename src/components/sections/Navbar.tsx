@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 
@@ -16,12 +16,41 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  const [activeSection, setActiveSection] = useState('about');
+  const navRef = useRef<HTMLElement>(null);
 
   // ---------- scroll listener ----------
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // ---------- active section tracking ----------
+  useEffect(() => {
+    const sectionIds = NAV_LINKS.map((l) => l.href.replace('#', ''));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => {
+            // prioritise the one closest to top of viewport
+            return a.boundingClientRect.top - b.boundingClientRect.top;
+          });
+        if (visible.length > 0) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      { rootMargin: '-20% 0px -60% 0px', threshold: 0 },
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   // ---------- theme init ----------
@@ -72,148 +101,128 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ===== NAVBAR ===== */}
-      <motion.header
-        initial={{ y: -80, opacity: 0 }}
+      {/* ===== CENTERED FLOATING PILL NAVBAR ===== */}
+      <motion.nav
+        ref={navRef}
+        initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-1 left-2 right-2 z-50 flex justify-center"
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+        className="fixed left-1/2 top-4 z-50 -translate-x-1/2"
       >
-        <nav
+        <div
           className={`
-            transition-all duration-500 ease-out w-full
+            flex items-center gap-0.5 rounded-full p-1.5 transition-all duration-500
             ${
               scrolled
-                ? 'mt-4 w-[calc(100%-2rem)] sm:w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] lg:w-full max-w-6xl rounded-2xl border border-[var(--glass-border)] bg-[var(--glass)] shadow-lg backdrop-blur-2xl'
-                : 'max-w-full border-b border-transparent bg-transparent backdrop-blur-none'
+                ? 'border border-[var(--glass-border)] bg-[var(--glass)] shadow-[0_8px_32px_rgba(0,0,0,0.45)] backdrop-blur-xl'
+                : 'border border-transparent bg-[var(--background)]/70 shadow-[0_4px_20px_rgba(0,0,0,0.25)] backdrop-blur-lg'
             }
           `}
-          style={
-            scrolled
-              ? {
-                  borderImage:
-                    'linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-emerald), transparent) 1',
-                  borderImageSlice: 1,
-                  borderWidth: '0 0 1px 0',
-                  borderStyle: 'solid',
-                }
-              : undefined
-          }
         >
-          <div
-            className={`
-              flex items-center justify-between transition-all duration-500 ease-out
-              ${
-                scrolled
-                  ? 'px-6 sm:px-8 py-3.5 md:py-4'
-                  : 'px-4 sm:px-6 md:px-8 py-4 md:py-5'
-              }
-            `}
-          >
-            {/* ----- Logo ----- */}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="relative z-10 select-none"
-            >
-              <span
-                className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-[10px] font-bold text-white font-nav"
-                style={{
-                  background: 'var(--gradient-primary)',
-                }}
-              >
-                AG
-              </span>
-            </a>
-
-            {/* ----- Desktop links ----- */}
-            <ul className="hidden items-center gap-4 lg:gap-6 md:flex">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <button
-                    onClick={() => handleNav(link.href)}
-                    className="relative flex h-9 items-center justify-center rounded-xl px-4 text-[10px] font-bold font-nav text-[var(--muted-foreground)] transition-colors duration-200 hover:text-[var(--foreground)] hover:bg-[var(--muted)]/50"
-                  >
-                    {link.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-
-            {/* ----- Right controls ----- */}
-            <div className="flex items-center gap-4">
-              {/* Theme toggle */}
-              <button
-                onClick={toggleTheme}
-                aria-label="Toggle theme"
-                className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--muted)] text-[var(--foreground)] transition-colors duration-200 hover:border-[var(--accent-cyan)]"
-              >
-                <AnimatePresence mode="wait" initial={false}>
-                  {isDark ? (
+          {/* Desktop nav links */}
+          <div className="hidden items-center gap-0.5 md:flex">
+            {NAV_LINKS.map((link) => {
+              const isActive = activeSection === link.href.replace('#', '');
+              return (
+                <button
+                  key={link.href}
+                  onClick={() => handleNav(link.href)}
+                  className={`
+                    relative rounded-full px-3 py-1.5 text-xs font-medium transition-colors duration-300
+                    sm:px-4 sm:text-sm
+                    ${
+                      isActive
+                        ? 'text-[var(--background)]'
+                        : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                    }
+                  `}
+                >
+                  {/* Active pill background */}
+                  {isActive && (
                     <motion.span
-                      key="sun"
-                      initial={{ rotate: -90, scale: 0, opacity: 0 }}
-                      animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                      exit={{ rotate: 90, scale: 0, opacity: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="absolute"
-                    >
-                      <Sun size={16} />
-                    </motion.span>
-                  ) : (
-                    <motion.span
-                      key="moon"
-                      initial={{ rotate: 90, scale: 0, opacity: 0 }}
-                      animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                      exit={{ rotate: -90, scale: 0, opacity: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="absolute"
-                    >
-                      <Moon size={16} />
-                    </motion.span>
+                      layoutId="nav-active-pill"
+                      className="absolute inset-0 rounded-full"
+                      style={{ background: 'var(--foreground)' }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 380,
+                        damping: 30,
+                      }}
+                    />
                   )}
-                </AnimatePresence>
-              </button>
-
-              {/* Mobile hamburger */}
-              <button
-                onClick={() => setMobileOpen((o) => !o)}
-                aria-label="Toggle menu"
-                className="relative z-50 flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--muted)] text-[var(--foreground)] transition-colors duration-200 hover:border-[var(--accent-cyan)] md:hidden"
-              >
-                <AnimatePresence mode="wait" initial={false}>
-                  {mobileOpen ? (
-                    <motion.span
-                      key="close"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute"
-                    >
-                      <X size={18} />
-                    </motion.span>
-                  ) : (
-                    <motion.span
-                      key="menu"
-                      initial={{ rotate: 90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute"
-                    >
-                      <Menu size={18} />
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </button>
-            </div>
+                  <span className="relative z-10">{link.label}</span>
+                </button>
+              );
+            })}
           </div>
-        </nav>
-      </motion.header>
+
+          {/* Theme toggle — always visible */}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="relative flex h-8 w-8 items-center justify-center rounded-full text-[var(--muted-foreground)] transition-colors duration-200 hover:bg-[var(--muted)]/60 hover:text-[var(--foreground)] md:ml-1"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {isDark ? (
+                <motion.span
+                  key="sun"
+                  initial={{ rotate: -90, scale: 0, opacity: 0 }}
+                  animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                  exit={{ rotate: 90, scale: 0, opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="absolute"
+                >
+                  <Sun size={14} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="moon"
+                  initial={{ rotate: 90, scale: 0, opacity: 0 }}
+                  animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                  exit={{ rotate: -90, scale: 0, opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="absolute"
+                >
+                  <Moon size={14} />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </button>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-label="Toggle menu"
+            className="relative z-50 flex h-8 w-8 items-center justify-center rounded-full text-[var(--muted-foreground)] transition-colors duration-200 hover:bg-[var(--muted)]/60 hover:text-[var(--foreground)] md:hidden"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {mobileOpen ? (
+                <motion.span
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute"
+                >
+                  <X size={16} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute"
+                >
+                  <Menu size={16} />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </button>
+        </div>
+      </motion.nav>
 
       {/* ===== MOBILE MENU OVERLAY ===== */}
       <AnimatePresence>
@@ -243,25 +252,36 @@ export default function Navbar() {
                 <div className="line-h-accent mb-8" />
 
                 <ul className="flex flex-col gap-2">
-                  {NAV_LINKS.map((link, i) => (
-                    <motion.li
-                      key={link.href}
-                      initial={{ x: 40, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.08 * i, duration: 0.4 }}
-                    >
-                      <button
-                        onClick={() => handleNav(link.href)}
-                        className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-xs font-bold font-nav text-[var(--muted-foreground)] transition-colors hover:bg-[var(--muted)] hover:text-[var(--foreground)]"
+                  {NAV_LINKS.map((link, i) => {
+                    const isActive = activeSection === link.href.replace('#', '');
+                    return (
+                      <motion.li
+                        key={link.href}
+                        initial={{ x: 40, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.08 * i, duration: 0.4 }}
                       >
-                        <span
-                          className="h-1.5 w-1.5 rounded-full"
-                          style={{ background: 'var(--gradient-primary)' }}
-                        />
-                        {link.label}
-                      </button>
-                    </motion.li>
-                  ))}
+                        <button
+                          onClick={() => handleNav(link.href)}
+                          className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-xs font-bold font-nav transition-colors ${
+                            isActive
+                              ? 'bg-[var(--muted)] text-[var(--foreground)]'
+                              : 'text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)]'
+                          }`}
+                        >
+                          <span
+                            className="h-1.5 w-1.5 rounded-full"
+                            style={{
+                              background: isActive
+                                ? 'var(--gradient-primary)'
+                                : 'var(--border)',
+                            }}
+                          />
+                          {link.label}
+                        </button>
+                      </motion.li>
+                    );
+                  })}
                 </ul>
 
                 {/* Bottom decoration */}
