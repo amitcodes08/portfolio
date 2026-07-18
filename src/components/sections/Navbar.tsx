@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 
 const NAV_LINKS = [
@@ -120,41 +120,47 @@ export default function Navbar() {
           `}
         >
           {/* Desktop nav links */}
-          <div className="hidden items-center gap-0.5 md:flex">
-            {NAV_LINKS.map((link) => {
-              const isActive = activeSection === link.href.replace('#', '');
-              return (
-                <button
-                  key={link.href}
-                  onClick={() => handleNav(link.href)}
-                  className={`
-                    relative rounded-full px-3 py-1.5 text-xs font-medium transition-colors duration-300
-                    sm:px-4 sm:text-sm
-                    ${
-                      isActive
-                        ? 'text-[var(--background)]'
-                        : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
-                    }
-                  `}
-                >
-                  {/* Active pill background */}
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-active-pill"
-                      className="absolute inset-0 rounded-full"
-                      style={{ background: 'var(--foreground)' }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 380,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                  <span className="relative z-10">{link.label}</span>
-                </button>
-              );
-            })}
-          </div>
+          <LayoutGroup>
+            <div className="hidden items-center gap-0.5 md:flex">
+              {NAV_LINKS.map((link) => {
+                const sectionId = link.href.replace('#', '');
+                const isActive = activeSection === sectionId;
+                return (
+                  <button
+                    key={link.href}
+                    onClick={() => {
+                      setActiveSection(sectionId);
+                      handleNav(link.href);
+                    }}
+                    className={`
+                      relative rounded-full px-3 py-1.5 text-xs font-medium transition-colors duration-300
+                      sm:px-4 sm:text-sm
+                      ${
+                        isActive
+                          ? 'text-[var(--background)]'
+                          : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                      }
+                    `}
+                  >
+                    {/* Active pill background */}
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-active-pill"
+                        className="absolute inset-0 rounded-full"
+                        style={{ background: 'var(--foreground)' }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 380,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                    <span className="relative z-10">{link.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </LayoutGroup>
 
           {/* Theme toggle — always visible */}
           <button
