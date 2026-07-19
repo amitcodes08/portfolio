@@ -3,6 +3,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { Sun, Moon, Menu, X } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+
+gsap.registerPlugin(ScrollToPlugin);
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
@@ -30,27 +34,27 @@ export default function Navbar() {
   useEffect(() => {
     const sectionIds = NAV_LINKS.map((l) => l.href.replace('#', ''));
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => {
-            // prioritise the one closest to top of viewport
-            return a.boundingClientRect.top - b.boundingClientRect.top;
-          });
-        if (visible.length > 0) {
-          setActiveSection(visible[0].target.id);
+    const handleScroll = () => {
+      let active = 'about';
+      const triggerY = window.innerHeight * 0.35;
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= triggerY) {
+            active = id;
+          }
         }
-      },
-      { rootMargin: '-20% 0px -60% 0px', threshold: 0 },
-    );
+      }
+      setActiveSection((prev) => (prev !== active ? active : prev));
+    };
 
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Run once to set initial active section
+    handleScroll();
 
-    return () => observer.disconnect();
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // ---------- theme init ----------
@@ -85,7 +89,11 @@ export default function Navbar() {
       const id = href.replace('#', '');
       const el = document.getElementById(id);
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+        gsap.to(window, {
+          duration: 1.25, // slow and smooth scroll duration
+          scrollTo: { y: el, offsetY: 20 },
+          ease: 'power3.inOut',
+        });
       }
     },
     [],
@@ -150,8 +158,8 @@ export default function Navbar() {
                         style={{ background: 'var(--foreground)' }}
                         transition={{
                           type: 'spring',
-                          stiffness: 380,
-                          damping: 30,
+                          stiffness: 110, // slower, gentler spring glide
+                          damping: 20,    // smooth and fluid deceleration
                         }}
                       />
                     )}
